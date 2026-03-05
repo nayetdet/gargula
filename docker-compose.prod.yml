@@ -23,6 +23,7 @@ services:
       S3_REGION: ${S3_REGION}
       S3_ADDRESSING_STYLE: ${S3_ADDRESSING_STYLE}
       S3_MEDIA_BUCKET: ${S3_MEDIA_BUCKET}
+      CORS_ORIGIN: ${CORS_ORIGIN}
       ML_EMBEDDING_MODEL_NAME: ${ML_EMBEDDING_MODEL_NAME}
       ML_STT_MODEL_NAME: ${ML_STT_MODEL_NAME}
     command: uvicorn gargula.main:app --host 0.0.0.0 --port 8000

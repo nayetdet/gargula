@@ -8,12 +8,17 @@ class Settings(BaseSettings):
         extra="ignore",
     )
 
+    # General
+    cors_origin: str
+
+    # Database
     database_user: str
     database_password: str
     database_host: str
     database_port: int
     database_name: str
 
+    # S3
     s3_endpoint_url: str
     s3_access_key_id: str
     s3_secret_access_key: str
@@ -21,6 +26,7 @@ class Settings(BaseSettings):
     s3_addressing_style: str
     s3_media_bucket: str
 
+    # ML
     ml_embedding_model_name: str
     ml_stt_model_name: str
 
