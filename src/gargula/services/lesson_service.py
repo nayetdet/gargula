@@ -22,12 +22,11 @@ class LessonService:
     @staticmethod
     async def create(session: AsyncSession, request: LessonRequestSchema, media_file: UploadFile) -> LessonResponseSchema:
         media_response: MediaResponseSchema = await MediaService.create(session, media_file)
-        try:
-            lesson: Lesson = await LessonRepository.create(session, LessonMapper.to_model_with_media(request, media_response.id))
-            return LessonMapper.to_response_schema(lesson)
+        try: lesson: Lesson = await LessonRepository.create(session, LessonMapper.to_model_with_media(request, media_response.id))
         except Exception:
             await MediaService.delete_by_id(session, media_response.id)
             raise
+        return LessonMapper.to_response_schema(lesson)
 
     @staticmethod
     async def update(session: AsyncSession, lesson_id: UUID, request: LessonRequestSchema) -> LessonResponseSchema:

@@ -1,7 +1,6 @@
 import os
 import tempfile
 import aiofiles
-import whisper
 from uuid import UUID
 from typing import List, Set, Optional
 from fastapi import UploadFile
@@ -13,9 +12,10 @@ from gargula.models.media import Media
 from gargula.repositories.media_repository import MediaRepository
 from gargula.schemas.responses.media_response_schema import MediaResponseSchema
 from gargula.services.s3_service import S3Service
+from gargula.settings import settings
 
 class MediaService:
-    __BUCKET_NAME: str = "medias"
+    __BUCKET_NAME: str = settings.s3_media_bucket
     __ALLOWED_EXTENSIONS: Set[str] = {
         ".mp3",
         ".wav",

@@ -1,5 +1,6 @@
 from typing import Optional, AsyncGenerator
 from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession, create_async_engine, async_sessionmaker
+from gargula.settings import settings
 
 class DatabaseInstance:
     __engine: Optional[AsyncEngine] = None
@@ -9,8 +10,8 @@ class DatabaseInstance:
     def get_engine(cls) -> AsyncEngine:
         if cls.__engine is None:
             cls.__engine = create_async_engine(
-                url="postgresql+asyncpg://user:password@localhost:5432/gargula",
-                echo=True,
+                url=settings.database_async_url,
+                echo=False,
                 pool_size=10,
                 max_overflow=20,
             )

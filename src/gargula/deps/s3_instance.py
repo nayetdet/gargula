@@ -2,6 +2,8 @@ import aioboto3
 from typing import Optional
 from aioboto3 import Session
 from aiobotocore.client import AioBaseClient
+from botocore.config import Config
+from gargula.settings import settings
 
 class S3Instance:
     __session: Optional[Session] = None
@@ -16,7 +18,13 @@ class S3Instance:
     def get_client(cls) -> AioBaseClient:
         return cls.get_session().client(
             service_name="s3",
-            endpoint_url="http://localhost:3900",
-            aws_access_key_id="GK123",
-            aws_secret_access_key="SK456"
+            endpoint_url=settings.s3_endpoint_url,
+            aws_access_key_id=settings.s3_access_key_id,
+            aws_secret_access_key=settings.s3_secret_access_key,
+            region_name=settings.s3_region,
+            config=Config(
+                s3={
+                    "addressing_style": settings.s3_addressing_style
+                }
+            )
         )

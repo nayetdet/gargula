@@ -13,7 +13,11 @@ async def find_by_id(lesson_id: UUID, session: AsyncSession = Depends(DatabaseIn
     return await LessonService.find_by_id(session, lesson_id)
 
 @router.post("/", status_code=status.HTTP_201_CREATED)
-async def create(request: LessonRequestSchema, media_file: UploadFile = File(...), session: AsyncSession = Depends(DatabaseInstance.get_session)):
+async def create(
+    request: LessonRequestSchema = Depends(LessonRequestSchema.as_form),
+    media_file: UploadFile = File(...),
+    session: AsyncSession = Depends(DatabaseInstance.get_session),
+):
     return await LessonService.create(session, request, media_file)
 
 @router.put("/{lesson_id}")
