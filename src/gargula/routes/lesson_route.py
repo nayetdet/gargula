@@ -1,12 +1,17 @@
 from uuid import UUID
 from fastapi import APIRouter, Depends, UploadFile, File
-from sqlmodel.ext.asyncio.session import AsyncSession
+from sqlalchemy.ext.asyncio import AsyncSession
 from starlette import status
 from gargula.deps.database_instance import DatabaseInstance
+from gargula.schemas.queries.lesson_query_schema import LessonQuerySchema
 from gargula.schemas.requests.lesson_request_schema import LessonRequestSchema
 from gargula.services.lesson_service import LessonService
 
 router = APIRouter()
+
+@router.get("/")
+async def find_all(query: LessonQuerySchema = Depends(), session: AsyncSession = Depends(DatabaseInstance.get_session)):
+    return await LessonService.find_all(session, query)
 
 @router.get("/{lesson_id}")
 async def find_by_id(lesson_id: UUID, session: AsyncSession = Depends(DatabaseInstance.get_session)):

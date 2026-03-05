@@ -1,12 +1,17 @@
 from uuid import UUID
 from fastapi import APIRouter, Depends
-from sqlmodel.ext.asyncio.session import AsyncSession
+from sqlalchemy.ext.asyncio import AsyncSession
 from starlette import status
 from gargula.deps.database_instance import DatabaseInstance
+from gargula.schemas.queries.subject_query_schema import SubjectQuerySchema
 from gargula.schemas.requests.subject_request_schema import SubjectRequestSchema
 from gargula.services.subject_service import SubjectService
 
 router = APIRouter()
+
+@router.get("/")
+async def find_all(query: SubjectQuerySchema = Depends(), session: AsyncSession = Depends(DatabaseInstance.get_session)):
+    return await SubjectService.find_all(session, query)
 
 @router.get("/{subject_id}")
 async def find_by_id(subject_id: UUID, session: AsyncSession = Depends(DatabaseInstance.get_session)):
