@@ -17,5 +17,5 @@ class BaseModel(SQLModel):
         nullable=False,
         sa_column_kwargs={
             "onupdate": datetime.now,
-        },
+        }
     )
